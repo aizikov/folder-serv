@@ -21,3 +21,9 @@ class FileManagerFunctions:
         file_path = directory + file_name + '.txt'
         with open(file_path, 'w'):
             pass
+
+    @staticmethod
+    def rename_file(file_name, new_name):
+        old_file_path = directory + file_name
+        new_file_path = directory + new_name
+        os.rename(old_file_path, new_file_path)

@@ -18,11 +18,13 @@ class FileManagerUI(QMainWindow):
         self.create_button = QPushButton('Create Empty File')
         self.create_button.clicked.connect(self.create_empty_file)
 
+        self.rename_button = QPushButton("Rename File")
+        self.rename_button.clicked.connect(self.rename_file)
         
-
         layout.addWidget(self.file_list)
         layout.addWidget(self.delete_button)
         layout.addWidget(self.create_button)
+        layout.addWidget(self.rename_button)
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -51,5 +53,16 @@ class FileManagerUI(QMainWindow):
             FileManagerFunctions.create_empty_file(file_name)
             self.file_list.clear()
             self.populate_file_list()
+
+    def rename_file(self):
+        selected_item = self.file_list.currentItem().text()
+        new_name, ok_pressed = QInputDialog.getText(self, "Rename File", f"Enter new name for {selected_item}:")
+        if ok_pressed and new_name:
+            if new_name.endswith(".txt"):
+                FileManagerFunctions.rename_file(selected_item, new_name)
+                self.populate_file_list()
+            else:
+                QMessageBox.warning(None, "Invalid Extension", "File can only be renamed with a .txt extension")
+
 
     
