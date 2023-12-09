@@ -60,7 +60,7 @@ class FileManagerUI(QMainWindow):
 
     def rename_file(self):
         selected_item = self.file_list.currentItem().text()
-        new_name, ok_pressed = QInputDialog.getText(self, "Rename File", f"Enter new name for {selected_item}:")
+        new_name, ok_pressed = QInputDialog.getText(self, "Rename File", f"Enter new name for {selected_item}:", text=selected_item)
         if ok_pressed and new_name:
             if new_name.endswith(".txt"):
                 FileManagerFunctions.rename_file(selected_item, new_name)
