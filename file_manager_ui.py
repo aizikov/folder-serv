@@ -30,12 +30,14 @@ class FileManagerUI(QMainWindow):
 
     def populate_file_list(self):
         files = FileManagerFunctions.get_files_list()
+        self.file_list.clear()
         for file in files:
             self.file_list.addItem(file)
 
     def delete_file(self):
         selected_item = self.file_list.currentItem().text()
         FileManagerFunctions.delete_file(selected_item)
+        self.populate_file_list()
 
     def create_empty_file(self):
         file_name, ok_pressed = QInputDialog.getText(self, "Create Empty File", "Enter file name:")
@@ -43,3 +45,5 @@ class FileManagerUI(QMainWindow):
             FileManagerFunctions.create_empty_file(file_name)
             self.file_list.clear()
             self.populate_file_list()
+
+    

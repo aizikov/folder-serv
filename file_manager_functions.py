@@ -15,3 +15,9 @@ class FileManagerFunctions:
         os.remove(file_path)
 
     # Добавьте методы для создания, переименования и редактирования файлов
+
+    @staticmethod
+    def create_empty_file(file_name):
+        file_path = directory + file_name + '.txt'
+        with open(file_path, 'w'):
+            pass
