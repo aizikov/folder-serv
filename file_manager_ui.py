@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QListWidget, QPushButton, QInputDialog
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QListWidget, QPushButton, QInputDialog, QMessageBox
 from file_manager_functions import FileManagerFunctions
 
 class FileManagerUI(QMainWindow):
@@ -18,7 +18,7 @@ class FileManagerUI(QMainWindow):
         self.create_button = QPushButton('Create Empty File')
         self.create_button.clicked.connect(self.create_empty_file)
 
-        # Добавьте кнопки и методы для создания, переименования и редактирования файлов
+        
 
         layout.addWidget(self.file_list)
         layout.addWidget(self.delete_button)
@@ -36,8 +36,14 @@ class FileManagerUI(QMainWindow):
 
     def delete_file(self):
         selected_item = self.file_list.currentItem().text()
-        FileManagerFunctions.delete_file(selected_item)
-        self.populate_file_list()
+        confirm_delete = QMessageBox.question(self, 
+                                              'Confirm Delete', 
+                                              f'Are you sure you want to delete {selected_item}?', 
+                                              QMessageBox.Yes | QMessageBox.No)
+        if confirm_delete == QMessageBox.Yes:
+            FileManagerFunctions.delete_file(selected_item)
+            self.populate_file_list()
+
 
     def create_empty_file(self):
         file_name, ok_pressed = QInputDialog.getText(self, "Create Empty File", "Enter file name:")
