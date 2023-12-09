@@ -1,13 +1,21 @@
 import os
+import fnmatch
 
 directory = './docs/'
 
 class FileManagerFunctions:
     @staticmethod
-    def get_files_list():
-        
+    def get_files_list(mask, sort):
         files = [f for f in os.listdir(directory) if f.endswith('.txt')]
-        return files
+        filtered_files = [file for file in files if fnmatch.fnmatch(file, mask)]
+
+        if sort == 'Extension':
+            filtered_files.sort(key=lambda x: x.split('.')[-1])  # Sort the files by extension
+        elif sort == 'Modification Time':
+            filtered_files.sort(key=lambda x: os.path.getmtime(os.path.join(directory, x)))  # Sort the files by modification time
+        else:
+            filtered_files.sort()  # Sort the files by name
+        return filtered_files
 
     @staticmethod
     def delete_file(file_name):
@@ -46,3 +54,8 @@ class FileManagerFunctions:
                 file.write(new_content)
         except FileNotFoundError:
             return None
+    
+    @staticmethod
+    def get_file_path(file_name):
+        file_path = directory + file_name
+        return file_path
